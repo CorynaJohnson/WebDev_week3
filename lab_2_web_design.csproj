@@ -84,6 +84,18 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="SimpleInjector, Version=3.2.3.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.3.2.3\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web, Version=3.2.3.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Integration.Web.3.2.3\lib\net40\SimpleInjector.Integration.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web.Mvc, Version=3.2.3.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Integration.Web.Mvc.3.2.3\lib\net40\SimpleInjector.Integration.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -130,30 +142,51 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="scripts\ai.0.15.0-build58334.js" />
-    <Content Include="scripts\ai.0.15.0-build58334.min.js" />
-    <Content Include="scripts\bootstrap.js" />
-    <Content Include="scripts\bootstrap.min.js" />
-    <None Include="scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="scripts\jquery-1.10.2.js" />
-    <Content Include="scripts\jquery-1.10.2.min.js" />
-    <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="fonts\scripts\ai.0.15.0-build58334.js" />
+    <Content Include="fonts\scripts\ai.0.15.0-build58334.min.js" />
+    <Content Include="fonts\scripts\bootstrap.js" />
+    <Content Include="fonts\scripts\bootstrap.min.js" />
+    <None Include="fonts\scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="fonts\scripts\jquery-1.10.2.js" />
+    <Content Include="fonts\scripts\jquery-1.10.2.min.js" />
+    <Content Include="fonts\scripts\modernizr-2.6.2.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\DependencyInjectionConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\UserController1.cs" />
+    <Compile Include="Controllers\YarnController.cs" />
     <Compile Include="Data\Database.cs" />
     <Compile Include="Data\DataContext.cs" />
+    <Compile Include="Data\EfRepository.cs" />
+    <Compile Include="Data\IRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610081720360_InitialCreate.cs" />
+    <Compile Include="Migrations\201610081720360_InitialCreate.Designer.cs">
+      <DependentUpon>201610081720360_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610151630071_Yarn.cs" />
+    <Compile Include="Migrations\201610151630071_Yarn.Designer.cs">
+      <DependentUpon>201610151630071_Yarn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610180240154_userandyarn.cs" />
+    <Compile Include="Migrations\201610180240154_userandyarn.Designer.cs">
+      <DependentUpon>201610180240154_userandyarn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610180517093_FinalUsersandYarn.cs" />
+    <Compile Include="Migrations\201610180517093_FinalUsersandYarn.Designer.cs">
+      <DependentUpon>201610180517093_FinalUsersandYarn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Yarn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -167,7 +200,13 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="scripts\jquery-1.10.2.min.map" />
+    <Content Include="fonts\scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Yarn\Create.cshtml" />
+    <Content Include="Views\Yarn\Delete.cshtml" />
+    <Content Include="Views\Yarn\Details.cshtml" />
+    <Content Include="Views\Yarn\Edit.cshtml" />
+    <Content Include="Views\Yarn\Index.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -180,6 +219,20 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201610081720360_InitialCreate.resx">
+      <DependentUpon>201610081720360_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610151630071_Yarn.resx">
+      <DependentUpon>201610151630071_Yarn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610180240154_userandyarn.resx">
+      <DependentUpon>201610180240154_userandyarn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610180517093_FinalUsersandYarn.resx">
+      <DependentUpon>201610180517093_FinalUsersandYarn.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

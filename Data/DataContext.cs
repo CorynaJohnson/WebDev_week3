@@ -20,5 +20,6 @@ namespace lab_2_web_design.Data
         }
 
         public System.Data.Entity.DbSet<lab_2_web_design.Models.User> Users { get; set; }
+        public System.Data.Entity.DbSet<lab_2_web_design.Models.Yarn> Yarn { get; set; }
     }
 }

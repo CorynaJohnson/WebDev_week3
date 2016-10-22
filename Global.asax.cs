@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using lab_2_web_design.App_Start;
 
 namespace lab_2_web_design
 {
@@ -13,6 +14,7 @@ namespace lab_2_web_design
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            DependencyInjectionConfig.Register();
         }
     }
 }

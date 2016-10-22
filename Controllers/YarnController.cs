@@ -11,112 +11,127 @@ using lab_2_web_design.Models;
 
 namespace lab_2_web_design.Controllers
 {
-    public class UserController : Controller
+    public class YarnController : Controller
     {
         private readonly IRepository _dataRepository;
 
-        public UserController(IRepository dataRepository)
+        public YarnController(IRepository dataRepository)
         {
             _dataRepository = dataRepository;
         }
-        // GET: User
+        // GET: Yarns
         public ActionResult Index()
         {
-            var users = _dataRepository.GetAllUsers();
-            return View(users);            
+            var yarn = _dataRepository.GetAllYarn();
+            return View(yarn);
         }
 
-        // GET: User/Details/5
+        // GET: Yarns/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = _dataRepository.getUser(id.Value);
-            if (user == null)
+            Yarn yarn = _dataRepository.getYarn(id.Value);
+            if (yarn == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(yarn);
         }
 
-        // GET: User/Create
+        // GET: Yarns/Create
         public ActionResult Create()
         {
+            GetUserList();
             return View();
         }
 
-        // POST: User/Create
+        // POST: Yarns/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserId,FirstName,LastName,EmailAdress")] User user)
+        public ActionResult Create([Bind(Include = "YarnId,ColorName,BrandName,Skeins,YarnType")] Yarn yarn, List<int> UserIds)
         {
             if (ModelState.IsValid)
             {
-                _dataRepository.addUser(user);
+                yarn.Users = new List<User>();
+                foreach (var userId in UserIds)
+                {
+                    yarn.Users.Add(new User
+                    {
+                        UserId = userId
+                    });
+                }
+
+                _dataRepository.addYarn(yarn);
+
                 return RedirectToAction("Index");
             }
 
-            return View(user);
+            return View(yarn);
         }
 
-        // GET: User/Edit/5
+        // GET: Yarns/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = _dataRepository.getUser(id.Value);
-            if (user == null)
+            Yarn yarn = _dataRepository.getYarn(id.Value);
+            if (yarn == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(yarn);
         }
 
-        // POST: User/Edit/5
+        // POST: Yarns/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserId,FirstName,LastName,EmailAdress")] User user)
+        public ActionResult Edit([Bind(Include = "YarnId,ColorName,BrandName,Skeins,YarnType")] Yarn yarn)
         {
             if (ModelState.IsValid)
             {
-                _dataRepository.updateUser(user);
+                _dataRepository.updateYarn(yarn);
                 return RedirectToAction("Index");
             }
-            return View(user);
+            return View(yarn);
         }
 
-        // GET: User/Delete/5
+        // GET: Yarns/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = _dataRepository.getUser(id.Value);
-            if (user == null)
+            Yarn yarn = _dataRepository.getYarn(id.Value);
+            if (yarn == null)
             {
                 return HttpNotFound();
             }
-            _dataRepository.removeUser(user);
-            return RedirectToAction("Index");
+            return View(yarn);
         }
 
-        // POST: User/Delete/5
+        // POST: Yarns/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            User user = _dataRepository.getUser(id);
+            Yarn yarn = _dataRepository.getYarn(id);
             return RedirectToAction("Index");
         }
-
+        private void GetUserList()
+        {
+            var users = _dataRepository.GetAllUsers();
+            ViewBag.UserList = new MultiSelectList(users, "UserId", "FirstName");
+        }
+        
     }
 }
