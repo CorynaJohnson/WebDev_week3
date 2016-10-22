@@ -65,7 +65,7 @@ namespace lab_2_web_design.Controllers
                         UserId = userId
                     });
                 }
-
+                //broken
                 _dataRepository.addYarn(yarn);
 
                 return RedirectToAction("Index");
